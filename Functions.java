@@ -12,7 +12,7 @@ public class Functions {
 	}
 	/**
 	 * 
-	 * @return how much wants rotate his message
+	 * @return how much the user wants rotate his message
 	 */
 	public static int rotNB() {
 		sc = new Scanner(System.in);
