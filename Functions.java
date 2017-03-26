@@ -1,3 +1,4 @@
+import java.awt.RenderingHints.Key;
 import java.util.Scanner;
 
 public class Functions {
@@ -9,6 +10,97 @@ public class Functions {
 				+ "\nThe \"Rot\" is a simple letter substitution cipher,"
 				+ "\nthat replaces a letter with the letter x letters after it in the alphabet"
 				+ "\nFor example, the rot-13 substituate \'A\' to \'N\'.\n");
+	}
+	/**
+	 * 
+	 * @return which mode the user want to run
+	 */
+	public static int choixMode() {
+		int choice;
+		sc = new Scanner(System.in);
+		System.out.println("Choose your mode : \n"
+				+ "1.A simple Rot-X\n"
+				+ "2.A encrypted message with a key\n"
+				+ "Please enter 1 or 2 : ");
+		choice = Integer.parseInt(sc.nextLine());
+		while (choice < 1 || choice > 2) {
+			System.out.println("Choose an option of the menu ! Try again : ");
+			choice = Integer.parseInt(sc.nextLine());
+		}
+		return choice;
+	}
+	/**
+	 * 
+	 * @return the key composed of the rot-x for every characters
+	 */
+	public static int [] key() {
+		String key;
+		System.out.println("Good choice, enter your key (no more than 140 characters) :");
+		key = sc.nextLine();
+		while (key.length() > 140){
+			System.out.println("I said no more than 140 characters !!!"
+					+ "\nTry again :");
+			key = sc.nextLine();
+		}
+		int [] t = new int[key.length()];
+		for (int i = 0; i < key.length(); i++) {
+			if(key.charAt(i) >= 'A' && key.charAt(i) <= 'Z')
+				t[i] = (int) key.charAt(i) - 64;
+			else if(key.charAt(i) >= 'a' && key.charAt(i) <= 'z')
+				t[i] = (int) key.charAt(i) - 96;
+			else if(key.charAt(i) >= '!' && key.charAt(i) <= '/')
+				t[i] = (int) key.charAt(i) - 32;
+			else if(key.charAt(i) >= ':' && key.charAt(i) <= 94)
+				t[i] = (int) key.charAt(i) - 58;
+			else if(key.charAt(i) >= '{' && key.charAt(i) <= '~')
+				t[i] = (int) key.charAt(i) - 123;
+			else if(key.charAt(i) >= '0' && key.charAt(i) <= '9')
+				t[i] = (int) key.charAt(i) - 47;
+			
+		}
+		return t;
+	}
+	/**
+	 * 
+	 * @param m->real message
+	 * @param t->the key
+	 * @return->the final message
+	 */
+	public static char [] transfertKey(String m, int [] t) {
+		char [] newMessage = new char [m.length()];
+		int j = 0;
+		for (int i = 0; i < newMessage.length; i++) {
+			if(m.charAt(i) >= 'A' && m.charAt(i) <= 'Z')
+				newMessage[i] = (char) ((((m.charAt(i)-65)+t[j])%26)+65);
+			else if(m.charAt(i) >= 'a' && m.charAt(i) <= 'z')
+				newMessage[i] = (char) ((((m.charAt(i)-97)+t[j])%26)+97);
+			else if(m.charAt(i) >= '!' && m.charAt(i) <= '/')
+				newMessage[i] = (char) ((((m.charAt(i)-33)+t[j])%26)+33);
+			else if(m.charAt(i) >= ':' && m.charAt(i) <= 94)
+				newMessage[i] = (char) ((((m.charAt(i)-59)+t[j])%26)+59);
+			else if(m.charAt(i) >= '{' && m.charAt(i) <= '~')
+				newMessage[i] = (char) ((((m.charAt(i)-124)+t[j])%26)+124);
+			else if(m.charAt(i) >= '0' && m.charAt(i) <= '9')
+				newMessage[i] = (char) ((((m.charAt(i)-48)+t[j])%26)+48);
+			else
+				newMessage[i] = m.charAt(i);
+			j++;
+			if(j == t.length)
+				j= 0;
+		}
+		return newMessage;
+	}
+	/*
+	 * print the final message (mode 2)
+	 */
+	public static void transfert2() {
+		int [] key = key();
+		String m = message();
+		char [] c = transfertKey(m, key);
+		System.out.println("\nHere your new message : \n");
+		for (int i = 0; i < c.length; i++)
+			System.out.print(c[i]);
+		System.out.println();
 	}
 	/**
 	 * 

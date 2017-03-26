@@ -5,7 +5,10 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Functions.presentation();
 		while (!answer.equals("no")) {
-			Functions.encryptedMessage();
+			if (Functions.choixMode() == 1)
+				Functions.encryptedMessage();
+			else
+				Functions.transfert2();
 			System.out.print("\nWould you like to retry ? [yes/no] : ");
 			answer = sc.nextLine();
 			while (!answer.equals("yes") && !answer.equals("no")) {
